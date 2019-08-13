@@ -2,7 +2,7 @@
 //  ADD HTML ELMENTO TO GELLERY
 // ------------------------------------------
 const gellery = document.getElementById('gallery');
-const peopleUrl = 'https://randomuser.me/api/';
+const peopleUrl = 'https://randomuser.me/api/?results=12';
 // ------------------------------------------
 //  FETCH FUNCTIONS
 // ------------------------------------------
