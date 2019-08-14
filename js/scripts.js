@@ -54,18 +54,74 @@ function generateHTML(data) {
         });
    
 }
+function formatPhoneNumber(phoneNumberString) {
+  var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+  var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+  if (match) {
+    return '(' + match[1] + ') ' + match[2] + '-' + match[3];
+  }
+  return null;
+}
+
+
+/**
+ * I used this link to generate the birthday date correctly:
+ * https://stackoverflow.com/questions/3552461/how-to-format-a-javascript-date
+ * I used this function to generate the phone with Regex:
+ * https://stackoverflow.com/questions/8358084/regular-expression-to-reformat-a-us-phone-number-in-javascript
+ */
+function generateModalWindow(data) {
+  data.map(person => {
+    const modalContainer = document.createElement('div');
+    modalContainer.className += 'modal-container';
+    body.appendChild(modalContainer);
+    modalContainer.innerHTML = `
+    <div class="modal">
+                    <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+                    <div class="modal-info-container">
+                        <img class="modal-img" src=${
+                          person.picture
+                        } alt="profile picture">
+                        <h3 id="name" class="modal-name cap">${
+                          person.firstName
+                        } ${person.lastName}</h3>
+                        <p class="modal-text">${person.email}</p>
+                        <p class="modal-text cap">${person.city}</p>
+                        <hr>
+                        <p class="modal-text">${formatPhoneNumber(
+                          person.phone
+                        )}</p>
+                        <p class="modal-text">${person.street}, ${person.city}, ${person.state} ${person.postcode}</p>
+                         <p class="modal-text">Birthday: ${person.birthday.toLocaleDateString('en-US'
+                        )}</p>
+                    </div>
+                </div>
+    `;
+  });
+}
 
 window.addEventListener('load', () => {
     
-        fetch(peopleUrl)
-        .then(response => response.json())
-        .then(getProfiles)
-        .then(generateHTML)
-        .catch(err => {
-            document.write('Something went wrong')
-            console.log(err)
-        })
-   
-   
-   
+  fetch(peopleUrl)
+  .then(response => response.json())
+  .then(getProfiles)
+  .then(generateHTML)
+  .catch(err => {
+      document.write('Something went wrong')
+      console.log(err)
+  })
+});
+
+$(function(){
+  $('.card').lightBox({
+    containerResizeSpeed: 250,
+    fixedNavigation: true
   });
+  
+});
+
+
+
+
+
+
