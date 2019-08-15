@@ -1,7 +1,8 @@
 // ------------------------------------------
 //  ADD HTML ELMENTO TO GELLERY
 // ------------------------------------------
-const gellery = document.getElementById('gallery');
+const gallery = document.getElementById('gallery');
+const body = document.querySelector('body')
 const peopleUrl = 'https://randomuser.me/api/?results=12';
 // ------------------------------------------
 //  FETCH FUNCTIONS
@@ -85,7 +86,44 @@ function generateModalWindow(data) {
                         <h3 id="name" class="modal-name cap">${
                           person.firstName
                         } ${person.lastName}</h3>
-                        <p class="modal-text">${person.email}</p>
+                        
+                </div>
+    `;
+  });
+}
+
+window.addEventListener('load', () => {
+    fetch(peopleUrl)
+  .then(response => response.json())
+  .then(getProfiles)
+  .then(generateHTML)
+    .catch(err => {
+      document.write('Something went wrong')
+      console.log(err)
+
+
+  })
+});
+
+const card = document.querySelector('.card');
+card.addEventListener('click', () => {
+  console.log('hey')
+})
+
+
+// $(".open").on("click", function(){
+//   $(".popup, .popup-content").addClass("active");
+//   });
+// $(function(){
+//   $('.card').lightBox({
+//     containerResizeSpeed: 250,
+//     fixedNavigation: true
+//   });
+  
+// });
+
+
+/* <p class="modal-text">${person.email}</p>
                         <p class="modal-text cap">${person.city}</p>
                         <hr>
                         <p class="modal-text">${formatPhoneNumber(
@@ -95,31 +133,7 @@ function generateModalWindow(data) {
                          <p class="modal-text">Birthday: ${person.birthday.toLocaleDateString('en-US'
                         )}</p>
                     </div>
-                </div>
-    `;
-  });
-}
-
-window.addEventListener('load', () => {
-    
-  fetch(peopleUrl)
-  .then(response => response.json())
-  .then(getProfiles)
-  .then(generateHTML)
-  .catch(err => {
-      document.write('Something went wrong')
-      console.log(err)
-  })
-});
-
-$(function(){
-  $('.card').lightBox({
-    containerResizeSpeed: 250,
-    fixedNavigation: true
-  });
-  
-});
-
+ */
 
 
 
