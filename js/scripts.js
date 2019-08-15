@@ -15,6 +15,7 @@ function getProfiles(json) {
     const email = person.email;
     const city = person.location.city;
     const state = person.location.state;
+    const street = person.location.street;
     const postcode = person.location.postcode;
     const birthday = person.dob.date;
     const phone = person.phone;
@@ -32,7 +33,8 @@ function getProfiles(json) {
           state,
           postcode,
           birthday,
-          phone
+          phone, 
+          street
         };
       })
       .catch(err => console.log('Error fetching random user', err));
@@ -66,8 +68,8 @@ function generateHTML(data) {
   });
 
   const card = document.querySelector('.card');
-  card.addEventListener('click', event => {
-    generateModalWindow(event);
+  card.addEventListener('click', () => {
+    generateModalWindow(data);
   });
 }
 function formatPhoneNumber(phoneNumberString) {
@@ -79,37 +81,46 @@ function formatPhoneNumber(phoneNumberString) {
   return null;
 }
 
+function formatBirthday(date) {
+  const newDate = new Date(date)
+  newDate.toLocaleDateString("en-US")
+ return newDate
+}
+
 /**
  * I used this link to generate the birthday date correctly:
  * https://stackoverflow.com/questions/3552461/how-to-format-a-javascript-date
  * I used this function to generate the phone with Regex:
  * https://stackoverflow.com/questions/8358084/regular-expression-to-reformat-a-us-phone-number-in-javascript
  */
-function generateModalWindow(person) {
-  const modalContainer = document.createElement('div');
-  modalContainer.className += 'modal-container';
-  body.appendChild(modalContainer);
-  modalContainer.innerHTML = `
-    <div class="modal">
-                    <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-                    <div class="modal-info-container">
-                        <img class="modal-img" src=${
-                          person.picture
-                        } alt="profile picture">
-                        <h3 id="name" class="modal-name cap">${
-                          person.firstName
-                        } ${person.lastName}</h3>
-                        <p class="modal-text">${person.email}</p>
-                  <p class="modal-text cap">${person.city}</p>
-                  <hr>
-                  <p class="modal-text">${formatPhoneNumber(person.phone)}</p>
-                  <p class="modal-text">${person.street}, ${person.city}, ${
-    person.state
-  } ${person.postcode}</p>
-                   <p class="modal-text">Birthday: ${person.birthday}</p>
-                </div>
-                </div>
-    `;
+function generateModalWindow(data) {
+  data.map(person => {
+    const modalContainer = document.createElement('div');
+    modalContainer.className += 'modal-container';
+    body.appendChild(modalContainer);
+    modalContainer.innerHTML = `
+      <div class="modal">
+                      <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+                      <div class="modal-info-container">
+                          <img class="modal-img" src=${
+                            person.picture
+                          } alt="profile picture">
+                          <h3 id="name" class="modal-name cap">${
+                            person.firstName
+                          } ${person.lastName}</h3>
+                          <p class="modal-text">${person.email}</p>
+                    <p class="modal-text cap">${person.city}</p>
+                    <hr>
+                    <p class="modal-text">${formatPhoneNumber(person.phone)}</p>
+                    <p class="modal-text">${person.street}, ${
+      person.state
+    } ${person.postcode}</p>
+                     <p class="modal-text">Birthday: ${person.birthday}</p>
+                  </div>
+                  </div>
+      `;
+  })
+  
 
   $('.modal-close-btn').on('click', () => {
     $('.modal-container').css('visibility', 'hidden');
