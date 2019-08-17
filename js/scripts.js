@@ -1,18 +1,38 @@
 // ------------------------------------------
-//  ADD HTML ELMENTO TO GELLERY
+//  API URL
 // ------------------------------------------
-const gallery = document.getElementById('gallery');
-const body = document.querySelector('body');
+
 const peopleUrl = 'https://randomuser.me/api/?results=12';
+
 // ------------------------------------------
-//  FETCH FUNCTIONS
+//  FETCH API
 // ------------------------------------------
+
+// When the window load the fetch API is being processed
+//generating the profiles and the HTML rendering
+
+window.addEventListener('load', () => {
+  fetch(peopleUrl)
+    .then(response => response.json())
+    .then(getProfiles)
+    .then(generateHTML)
+    .catch(err => {
+      document.write('Something went wrong');
+      console.log(err);
+    });
+});
+
+// ------------------------------------------
+//  CREATE PROFILES FROM THE JSON
+// ------------------------------------------
+
 function getProfiles(json) {
   const profileArr = [];
   json.results.map(person => {
     const firstName = person.name.first;
     const lastName = person.name.last;
     const picture = person.picture.medium;
+    const largePicture = person.picture.large;
     const email = person.email;
     const city = person.location.city;
     const state = person.location.state;
@@ -25,6 +45,7 @@ function getProfiles(json) {
       firstName,
       lastName,
       picture,
+      largePicture,
       email,
       city,
       state,
@@ -38,12 +59,13 @@ function getProfiles(json) {
 }
 
 // ------------------------------------------
-//  HELPER FUNCTIONS
+//  HTML RENDERING ELEMENTS 
 // ------------------------------------------
 
+// this function create the all the HTML elements and render it to the screen;
 function generateHTML(arr) {
-  
-    arr.forEach(profile => {
+  const gallery = document.getElementById('gallery');
+  arr.forEach(profile => {
     const card = document.createElement('div');
     card.className += 'card';
     gallery.appendChild(card);
@@ -54,55 +76,69 @@ function generateHTML(arr) {
           <div class="card-info-container">
           <h3 id="name" class="card-name cap">${profile.firstName} ${
       profile.lastName
-    } </h3>
+    }</h3>
           <p class="card-text">${profile.email}</p>
           <p class="card-text cap">${profile.city}, ${profile.state}</p>
           </div>
           </div>
           `;
 
+    //creation of the modal window, hide it by visibility hidden
     const modalContainer = document.createElement('div');
     modalContainer.className += 'modal-container';
-    
     modalContainer.innerHTML = `
       <div class="modal">
-                      <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-                      <div class="modal-info-container">
-                          <img class="modal-img" src=${
-                            profile.picture
-                          } alt="profile picture">
-                          <h3 id="name" class="modal-name cap">${
-                            profile.firstName
-                          } ${profile.lastName}</h3>
-                          <p class="modal-text">${profile.email}</p>
-                    <p class="modal-text cap">${profile.city}</p>
-                    <hr>
-                    <p class="modal-text">${formatPhoneNumber(profile.phone)}</p>
-                    <p class="modal-text">${profile.street}, ${profile.state} ${
-      profile.postcode
-    }</p>
-                     <p class="modal-text">Birthday: ${formatBirthday(
-                       profile.birthday
-                     )}</p>
-                  </div>
-                  </div>
+        <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+          <div class="modal-info-container">
+              <img class="modal-img" src=${
+                profile.largePicture
+              } alt="profile picture">
+                <h3 id="name" class="modal-name cap">${profile.firstName} ${
+      profile.lastName
+    }</h3>
+                <p class="modal-text">${profile.email}</p>
+                <p class="modal-text cap">${profile.city}</p>
+                <hr>
+                <p class="modal-text">${formatPhoneNumber(profile.phone)}</p>
+                <p class="modal-text cap">${profile.street}, ${profile.city}, ${
+      profile.state
+    } ,${profile.postcode}</p>
+                <p class="modal-text">Birthday: ${formatBirthday(
+                  profile.birthday
+                )}</p>
+            </div>
+      </div>
       `;
-      $('#gallery').after(modalContainer)
-      $('.modal-container').css('visibility', 'hidden');
-        });
+    $('#gallery').after(modalContainer);
+    $('.modal-container').css('visibility', 'hidden');
+  });
 
-        $('.card').on('click', (e) => {
-          console.log(e.target )
-        })
-        
+  //when a card is clicked the name of the card and the name of the modal cards are compared.
+  //if there is a match, the modal window visibility will be visibile
+  
+  $('.card').on('click', e => {
+    const card = e.currentTarget;
+    const cardName = card.querySelector('.card-name').textContent;
+    const cardsModal = document.querySelectorAll('.modal-container');
+    for (let i = 0; i < cardsModal.length; i++) {
+      const modalName = cardsModal[i].querySelector('#name').textContent;
+      if (modalName === cardName) {
+        cardsModal[i].style.visibility = 'visible';
+      }
+    }
+  });
 
+  //When the close button is clicked the modal window visibility will be hidden again
+
+  $('.modal-close-btn').on('click', () => {
+    $('.modal-container').css('visibility', 'hidden');
+  });
 }
-/**
- * I used this link to generate the birthday date correctly:
- * https://stackoverflow.com/questions/3552461/how-to-format-a-javascript-date
- * I used this function to generate the phone with Regex:
- * https://stackoverflow.com/questions/8358084/regular-expression-to-reformat-a-us-phone-number-in-javascript
- */
+
+// --------------------------------------------------
+//  HELPER FUNCTION FOR PHONE AND BIRTHDAY FORMATTING
+// --------------------------------------------------
+
 
 function formatPhoneNumber(phoneNumberString) {
   var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
@@ -118,18 +154,4 @@ function formatBirthday(date) {
   const newEvent = newDate.toLocaleDateString('en-US');
   return newEvent;
 }
-
-
-
-
-window.addEventListener('load', () => {
-  fetch(peopleUrl)
-    .then(response => response.json())
-    .then(getProfiles)
-    .then(generateHTML)
-    .catch(err => {
-      document.write('Something went wrong');
-      console.log(err);
-    });
-});
 
