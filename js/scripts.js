@@ -2,7 +2,7 @@
 //  API URL
 // ------------------------------------------
 
-const peopleUrl = 'https://randomuser.me/api/?results=12';
+const peopleUrl = 'https://randomuser.me/api/?results=12&nat=us';
 
 // ------------------------------------------
 //  FETCH API
