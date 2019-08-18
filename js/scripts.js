@@ -28,35 +28,34 @@ window.addEventListener('load', () => {
 
 function getProfiles(json) {
   const profileArr = [];
-  json.results.map(person => {
+  json.results.forEach(person => {
     const firstName = person.name.first;
     const lastName = person.name.last;
-    const picture = person.picture.medium;
-    const largePicture = person.picture.large;
+    const picture = person.picture.large;
     const email = person.email;
     const city = person.location.city;
     const state = person.location.state;
     const street = person.location.street;
     const postcode = person.location.postcode;
     const birthday = person.dob.date;
-    const phone = person.phone;
+    const cell = person.cell;
 
     profileArr.push({
       firstName,
       lastName,
-      picture,
-      largePicture,
+     picture,
       email,
       city,
       state,
       street,
       postcode,
       birthday,
-      phone
+      cell
     });
   });
   return profileArr;
 }
+
 
 // ------------------------------------------
 //  HTML RENDERING ELEMENTS 
@@ -91,7 +90,7 @@ function generateHTML(arr) {
         <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
           <div class="modal-info-container">
               <img class="modal-img" src=${
-                profile.largePicture
+                profile.picture
               } alt="profile picture">
                 <h3 id="name" class="modal-name cap">${profile.firstName} ${
       profile.lastName
@@ -99,7 +98,7 @@ function generateHTML(arr) {
                 <p class="modal-text">${profile.email}</p>
                 <p class="modal-text cap">${profile.city}</p>
                 <hr>
-                <p class="modal-text">${formatPhoneNumber(profile.phone)}</p>
+                <p class="modal-text">${formatPhoneNumber(profile.cell)}</p>
                 <p class="modal-text cap">${profile.street}, ${profile.city}, ${
       profile.state
     } ,${profile.postcode}</p>
@@ -141,8 +140,8 @@ function generateHTML(arr) {
 
 
 function formatPhoneNumber(phoneNumberString) {
-  var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
-  var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+  const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+  const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
   if (match) {
     return '(' + match[1] + ') ' + match[2] + '-' + match[3];
   }
