@@ -1,4 +1,4 @@
-import App from './app.js';
+import App from './app.jsx';
 
 const element = React.createElement(App);
 const domContainer = document.querySelector('#app');
