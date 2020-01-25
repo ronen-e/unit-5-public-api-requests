@@ -3,13 +3,15 @@ import Card from './card.jsx';
 
 class Gallery extends React.Component {
 	get cards() {
-		const profiles = this.props.items;
+		const { onClick, profiles } = this.props;
 
-		return profiles.map((profile, i) => <Card key={i} profile={profile} /> )
+		return profiles.map((profile, i) => 
+			<Card key={i} profile={profile} onClick={onClick} /> 
+		)
 	}
 	render() {
 		return (
-			<div id="gallery" className="gallery">
+			<div className="gallery">
 				{this.cards}
 			</div>
 		)
@@ -17,11 +19,12 @@ class Gallery extends React.Component {
 }
 
 Gallery.defaultProps = {
-	items: []
+	profiles: []
 }
 
 Gallery.propTypes = {
-	items: PropTypes.array
+	profiles: PropTypes.array,
+	onClick: PropTypes.func
 };
 
 export default Gallery;

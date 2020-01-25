@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
+import {ProfileCard as Profile} from './prop-types.jsx'
 
 class Card extends React.Component {
 	render() {
-		const { picture, firstName, lastName, email, city, state} = this.props.profile;
+		const { onClick, profile } = this.props;
+		const { picture, firstName, lastName, email, city, state} = profile;
 		
 		return (
-			<div className="card" onClick={this.props.onClick}>
+			<div className="card" onClick={() => onClick(profile)}>
 				<div className="card-img-container">
 					<img className="card-img" src={picture} alt="profile picture" />
 				</div>
@@ -25,14 +27,7 @@ Card.defaultProps = {
 }
 
 Card.propTypes = {
-	profile: PropTypes.shape({
-		picture: PropTypes.string,
-		firstName: PropTypes.string,
-		lastName: PropTypes.string,
-		email: PropTypes.string,
-		city: PropTypes.string,
-		state: PropTypes.string,
-	}).isRequired,
+	profile: Profile.isRequired,
 	onClick: PropTypes.func
 };
 
