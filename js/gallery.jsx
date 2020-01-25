@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import Card from './card.jsx';
 
 class Gallery extends React.Component {
-	get cards() {
+	cards() {
 		const { onClick, profiles } = this.props;
 
 		return profiles.map((profile, i) => 
@@ -12,7 +12,7 @@ class Gallery extends React.Component {
 	render() {
 		return (
 			<div className="gallery">
-				{this.cards}
+				{this.cards()}
 			</div>
 		)
 	}

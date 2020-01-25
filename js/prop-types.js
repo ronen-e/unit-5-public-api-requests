@@ -14,7 +14,7 @@ export const ProfileModal = PropTypes.shape({
 	postcode: PropTypes.number,
 	birthday: PropTypes.string,
 	cell: PropTypes.string
-})
+});
 
 export const ProfileCard = PropTypes.shape({
 	picture: PropTypes.string,
@@ -23,4 +23,4 @@ export const ProfileCard = PropTypes.shape({
 	email: PropTypes.string,
 	city: PropTypes.string,
 	state: PropTypes.string
-})
+});
