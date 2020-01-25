@@ -13,15 +13,19 @@ const peopleUrl = '/assets/profile-response.json';
 //generating the profiles and the HTML rendering
 
 window.addEventListener('load', () => {
-  fetch(peopleUrl)
-    .then(response => response.json())
-    .then(getProfiles)
+  fetchProfiles()
     .then(generateHTML)
     .catch(err => {
       document.write('Something went wrong');
       console.log(err);
     });
 });
+
+function fetchProfiles() {
+  return fetch(peopleUrl)
+    .then(response => response.json())
+    .then(getProfiles)
+}
 
 // ------------------------------------------
 //  CREATE PROFILES FROM THE JSON
@@ -44,7 +48,7 @@ function getProfiles(json) {
     profileArr.push({
       firstName,
       lastName,
-     picture,
+      picture,
       email,
       city,
       state,
@@ -76,7 +80,7 @@ function generateHTML(arr) {
           <div class="card-info-container">
           <h3 id="name" class="card-name cap">${profile.firstName} ${
       profile.lastName
-    }</h3>
+      }</h3>
           <p class="card-text">${profile.email}</p>
           <p class="card-text cap">${profile.city}, ${profile.state}</p>
           </div>
@@ -91,21 +95,21 @@ function generateHTML(arr) {
         <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
           <div class="modal-info-container">
               <img class="modal-img" src=${
-                profile.picture
-              } alt="profile picture">
+      profile.picture
+      } alt="profile picture">
                 <h3 id="name" class="modal-name cap">${profile.firstName} ${
       profile.lastName
-    }</h3>
+      }</h3>
                 <p class="modal-text">${profile.email}</p>
                 <p class="modal-text cap">${profile.city}</p>
                 <hr>
                 <p class="modal-text">${formatPhoneNumber(profile.cell)}</p>
                 <p class="modal-text cap">${profile.street}, ${profile.city}, ${
       profile.state
-    } ,${profile.postcode}</p>
+      } ,${profile.postcode}</p>
                 <p class="modal-text">Birthday: ${formatBirthday(
-                  profile.birthday
-                )}</p>
+        profile.birthday
+      )}</p>
             </div>
       </div>
       `;
@@ -115,7 +119,7 @@ function generateHTML(arr) {
 
   //when a card is clicked the name of the card and the name of the modal cards are compared.
   //if there is a match, the modal window visibility will be visibile
-  
+
   $('.card').on('click', e => {
     const card = e.currentTarget;
     const cardName = card.querySelector('.card-name').textContent;
