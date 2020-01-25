@@ -6,8 +6,8 @@ System.config({
 	transpiler: 'plugin-babel',
 	// Configure the Babel plugin - it's basically just telling it where to read the files from - in our case, they're in node_modules
 	map: {
-		'plugin-babel': '/node_modules/systemjs-plugin-babel/plugin-babel.js',
-		'systemjs-babel-build': '/node_modules/systemjs-plugin-babel/systemjs-babel-browser.js',
+		'plugin-babel': 'https://cdn.jsdelivr.net/npm/systemjs-plugin-babel/plugin-babel.js',
+		'systemjs-babel-build': 'https://cdn.jsdelivr.net/npm/systemjs-plugin-babel/systemjs-babel-browser.js',
 		'prop-types': 'https://unpkg.com/prop-types@15.6/prop-types.js'
 	},
   meta: {

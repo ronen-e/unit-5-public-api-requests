@@ -2,7 +2,8 @@
 //  API URL
 // ------------------------------------------
 
-const peopleUrl = 'https://randomuser.me/api/?results=12&nat=us';
+// const peopleUrl = 'https://randomuser.me/api/?results=12&nat=us';
+const peopleUrl = '/assets/profile-response.json';
 
 // ------------------------------------------
 //  FETCH API
