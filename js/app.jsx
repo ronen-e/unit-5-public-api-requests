@@ -1,6 +1,7 @@
 import Header from './header.jsx';
 import Gallery from './gallery.jsx';
 import Modal from './modal.jsx';
+import { fetchProfiles } from './scripts-react.js';
 
 class App extends React.Component {
   constructor(props) {

@@ -1,4 +1,5 @@
-import {ProfileModal as Profile} from './prop-types.js'
+import {ProfileModal as Profile} from './prop-types.js';
+import {formatBirthday, formatPhoneNumber} from './scripts-react.js';
 
 class Modal extends React.Component {
 	open() {
